@@ -1,0 +1,16 @@
+[Unit]
+Description=HomeVault household backup
+After=local-fs.target
+
+[Service]
+Type=oneshot
+User=homevault
+Group=homevault
+EnvironmentFile=/etc/homevault/homevault.conf
+ExecStart=/usr/bin/python3 /opt/homevault/homevault.py --vault ${VAULT_DIR} backup ${SOURCE_DIR}
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadOnlyPaths=${SOURCE_DIR}
+ReadWritePaths=${VAULT_DIR}
